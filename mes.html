@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<meta charset="utf-8">
+	<script type="text/javascript">
+		window.onload = function() {
+			var btn = document.getElementById('btn_ok');
+			var inptMes = document.getElementById('inpt_mes');
+			var messagesField = document.getElementById('messages_field');
+
+			function pressEnter(){
+				inptMes.addEventListener("keyup", function(event) {
+    				event.preventDefault();
+    				if (event.keyCode == 13) {
+        				btn.click();
+    				}
+				});
+			}
+
+			function addMessage(message){
+				var div = document.createElement('div');
+				div.className = "added_message";
+				div.innerText = message;
+				messagesField.appendChild(div);			
+			}
+
+			function test(){
+				addMessage(inptMes.value);
+				inptMes.value = '';
+			}
+
+			pressEnter();
+			btn.addEventListener('click', test);// = test;
+		}
+
+	</script>
+</head>
+<body>
+	<div id="page_header">
+		<div id="contact_info">
+			<h1 >No name</h1>
+		</div>
+		<div id="user_info">
+			<h1>Anonymous <span class="italic_text">(You)</span></h1>
+		</div>
+	</div>
+	<div id="page_body">
+		<div id="messages_field" class="out_message in_message"/></div>
+		<div id="chat_input_block">
+			<input id="inpt_mes" type="text"></input>
+			<button id="btn_ok">Send</button>
+		</div>
+		<div id="contact_menu">
+			<div class="contact_block_style">
+				<h1>Mama Prosti</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Шарамок</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Good Boy</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Шива</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Телка из Томска</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>BBNG</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Putin</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Navalny</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Cooper</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Дени</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Rick</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>02</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>41</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Дядя Деда</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Дюймовочка</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Лучший друг</h1>
+			</div>
+			<div class="contact_block_style">
+				<h1>Огурчик</h1>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

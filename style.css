@@ -1,0 +1,129 @@
+#page_header{
+	position: fixed;
+	top: 0%;
+	left: 0%;
+	height: 40px;
+	width: 100%;
+	border-bottom: thin solid #606060;
+	background: #404040;
+	/*z-index: 2;*/
+}
+
+#contact_info{
+	position: absolute;
+	width: 75%;
+	height: 100%;
+	border-right: thin solid #606060;
+}
+
+#user_info{
+	position: absolute;
+	right: 0%;
+	width: 25%;
+	height: 100%;
+	/*border-left: thin solid #606060;*/
+}
+
+#page_header h1{
+	text-align: center;
+	margin: 8px 0% 0% 0px;
+	color: #f0f0f0;
+	font: bold 110% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+span.italic_text {
+	color: #909090;
+	font: italic 80% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+#page_body{
+	position:absolute;
+	top: 40px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	/*height: 100%;*/
+	width: 100%;
+}
+
+#messages_field {
+	position: fixed;
+	top: 40px;
+	/*left: 0%;*/
+	bottom: 55px;
+	width: 75%;
+	border-top: thin solid #606060;
+	border-bottom: thin solid #606060;
+	border-right: thin solid #606060;
+	background: #202020;
+	overflow-y: scroll;
+}
+
+#chat_input_block {
+	position: fixed;
+	bottom: 0%;
+	height: 55px;
+	width: 75%;
+	border-top: thin solid #606060;
+	background: #404040;
+}
+
+#inpt_mes {
+	position: absolute;
+	height: 25px;
+	width: 95%;
+	top: 15px;
+	left: 2%;
+	border: thin solid #606060;
+	background: #606060;
+	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif; 
+}
+
+#btn_ok {
+	position: absolute;
+	height: 25px;
+	top: 15px;
+	right: 2%;
+	border: thin solid #606060;
+	background: #606060;
+	color: #202020;
+	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif; 
+}
+
+div.added_message{
+	right: 0%;
+	float: right;
+	clear: both;
+	margin: 5px 5px 5px 5px;
+	padding: 5px 8px 5px 8px;
+	background-color: #606060;
+	color: #F0F0F0;
+	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	max-width: 50%;
+}
+
+#contact_menu{
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	right: 0px;
+	width: 25%;
+	border-top: thin solid #606060;
+}
+div.contact_block_style{
+	float: right;
+	clear: both;
+	position: relative;
+	width: 100%;
+	height: 40px;
+	border-bottom: thin solid #606060;
+	border-left: thin solid #606060;
+	background: #404040;
+	overflow: hidden;
+}
+#contact_menu h1{
+	position: absolute;
+	margin: 8px 0% 0% 10px;
+	color: #f0f0f0;
+	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
