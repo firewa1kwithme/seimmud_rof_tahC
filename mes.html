@@ -24,9 +24,18 @@
 				messagesField.appendChild(div);			
 			}
 
+			function isNumericText(n){
+				return !(n[0] == " ") && n.length > 1;
+			}
+
 			function test(){
-				addMessage(inptMes.value);
-				inptMes.value = '';
+				if (isNumericText(inptMes.value)){
+					addMessage(inptMes.value);
+					inptMes.value = '';
+				}
+				else{
+					inptMes.value = '';
+				}
 			}
 
 			pressEnter();
