@@ -7,6 +7,27 @@
 			var btn = document.getElementById('btn_ok');
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
+			var socket = new WebSocket("ws://echo.websocket.org/");
+			var username = document.querySelector("#user_info h1");
+
+			function testWebSocket(){
+
+				socket.onopen = function(){					
+					username.innerText = "." + username.innerText;
+				};
+
+				socket.onclose = function(){
+					username.innerText = "Anonymous (You)";
+				};
+
+				socket.onmessage = function(event){
+					var div = document.createElement('div');
+					div.className = "incoming_message";
+					div.innerText = event.data;
+					messagesField.appendChild(div);
+					console.log(event.data);
+				};
+			};
 
 			function pressEnter(){
 				inptMes.addEventListener("keyup", function(event) {
@@ -15,31 +36,35 @@
         				btn.click();
     				}
 				});
-			}
+			};
 
 			function addMessage(message){
 				var div = document.createElement('div');
 				div.className = "added_message";
 				div.innerText = message;
-				messagesField.appendChild(div);			
-			}
+				messagesField.appendChild(div);
+				socket.send(message);	
+			};
 
 			function isNumericText(n){
 				return !(n[0] == " ") && n.length > 1;
-			}
+			};
 
 			function test(){
 				if (isNumericText(inptMes.value)){
 					addMessage(inptMes.value);
 					inptMes.value = '';
+					// socket.send(inptMes.value);
 				}
 				else{
 					inptMes.value = '';
 				}
-			}
+			};
 
 			pressEnter();
-			btn.addEventListener('click', test);// = test;
+			btn.addEventListener('click', test);
+			testWebSocket();
+
 		}
 
 	</script>
