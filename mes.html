@@ -8,16 +8,17 @@
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
 			var socket = new WebSocket("ws://echo.websocket.org/");
-			var username = document.querySelector("#user_info h1");
+			var username = document.querySelector("span.italic_text");
 
 			function testWebSocket(){
 
 				socket.onopen = function(){					
-					username.innerText = "." + username.innerText;
+					username.innerHTML = '<span style="color: #33ff33;">(online)';
+					// username.innerText = "(online)";
 				};
 
 				socket.onclose = function(){
-					username.innerText = "Anonymous (You)";
+					username.innerHTML = '<span style="color: red;">(offline)';
 				};
 
 				socket.onmessage = function(event){
