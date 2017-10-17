@@ -9,6 +9,30 @@
 	/*z-index: 2;*/
 }
 
+#input_connection{
+	position: absolute;
+	width: 75%;
+	height: 100%;
+	border-right: thin solid #606060;	
+}
+
+#input_IP{
+	position: absolute;
+	left: 2%;	
+}
+
+#input_username{
+	position: absolute;
+	left: 13%;	
+}
+
+#btn_connect{
+	position: absolute;
+	width: 10%;
+	top: 7px;
+	left: 24%;
+}
+
 #contact_info{
 	position: absolute;
 	width: 75%;
@@ -81,16 +105,12 @@ span.italic_text {
 
 #btn_ok {
 	position: absolute;
-	height: 25px;
 	top: 15px;
 	right: 2%;
-	border: thin solid #606060;
-	background: #606060;
-	color: #202020;
-	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif; 
 }
 
 div.added_message{
+	position: absolute;
 	right: 0%;
 	float: right;
 	clear: both;
@@ -138,4 +158,22 @@ div.contact_block_style{
 	margin: 8px 0% 0% 10px;
 	color: #f0f0f0;
 	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+button.buttons{
+	height: 25px;
+	border: thin solid #606060;
+	background: #606060;
+	color: #202020;
+	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+input.start_input_fields{
+	position: absolute;
+	height: 25px;
+	width: 10%;
+	top: 7px;
+	border: thin solid #606060;
+	background: #606060;
+	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif; 
 }

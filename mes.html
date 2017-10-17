@@ -4,29 +4,32 @@
 <meta charset="utf-8">
 	<script type="text/javascript">
 		window.onload = function() {
-			var btn = document.getElementById('btn_ok');
+			var btnConnect = document.getElementById('btn_connect');
+			var btnOk = document.getElementById('btn_ok');
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
-			var socket = new WebSocket("ws://echo.websocket.org/");
-			var username = document.querySelector("span.italic_text");
-
+			var username = document.getElementById("user_info");
+			var spanOnline = document.querySelector("span.italic_text");
+			
 			function testWebSocket(){
 
-				socket.onopen = function(){					
-					username.innerHTML = '<span style="color: #33ff33;">(online)';
+				var inptIP = document.getElementById('input_IP');
+				var inptUsername = document.getElementById('input_username');
+
+				var socket = new WebSocket(inptIP.value);
+
+				socket.onopen = function(){
+					username.innerText = inptUsername.value;
+					spanOnline.innerHTML = '<span style="color: #33ff33;">(online)';
 					// username.innerText = "(online)";
 				};
 
 				socket.onclose = function(){
-					username.innerHTML = '<span style="color: red;">(offline)';
+					spanOnline.innerHTML = '<span style="color: red;">(offline)';
 				};
 
 				socket.onmessage = function(event){
-					var div = document.createElement('div');
-					div.className = "incoming_message";
-					div.innerText = event.data;
-					messagesField.appendChild(div);
-					console.log(event.data);
+					addMessage(event.data, true);
 				};
 			};
 
@@ -34,17 +37,20 @@
 				inptMes.addEventListener("keyup", function(event) {
     				event.preventDefault();
     				if (event.keyCode == 13) {
-        				btn.click();
+        				btnOk.click();
     				}
 				});
 			};
 
-			function addMessage(message){
+			function addMessage(message, isIncoming) {
 				var div = document.createElement('div');
-				div.className = "added_message";
+				if (isIncoming) {
+					div.className = "incoming_message";
+				} else {
+					div.className = "added_message";
+				}
 				div.innerText = message;
 				messagesField.appendChild(div);
-				socket.send(message);	
 			};
 
 			function isNumericText(n){
@@ -53,7 +59,8 @@
 
 			function test(){
 				if (isNumericText(inptMes.value)){
-					addMessage(inptMes.value);
+					addMessage(inptMes.value, false);
+					socket.send(inptMes.value);
 					inptMes.value = '';
 					// socket.send(inptMes.value);
 				}
@@ -62,8 +69,9 @@
 				}
 			};
 
+			btnConnect.addEventListener('click', testWebSocket);
 			pressEnter();
-			btn.addEventListener('click', test);
+			btnOk.addEventListener('click', test);
 			testWebSocket();
 
 		}
@@ -72,8 +80,10 @@
 </head>
 <body>
 	<div id="page_header">
-		<div id="contact_info">
-			<h1 >No name</h1>
+		<div id="input_connection">
+			<input type="text" id="input_IP" class="start_input_fields" placeholder="IP..."></input>
+			<input id="input_username" class="start_input_fields" type="text" placeholder="Username..."></input>
+			<button id="btn_connect" class="buttons">Connect </button>
 		</div>
 		<div id="user_info">
 			<h1>Anonymous <span class="italic_text">(You)</span></h1>
@@ -83,7 +93,7 @@
 		<div id="messages_field" class="out_message in_message"/></div>
 		<div id="chat_input_block">
 			<input id="inpt_mes" type="text"></input>
-			<button id="btn_ok">Send</button>
+			<button id="btn_ok" class="buttons">Send</button>
 		</div>
 		<div id="contact_menu">
 			<div class="contact_block_style">
