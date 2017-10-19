@@ -110,7 +110,7 @@ span.italic_text {
 }
 
 div.added_message{
-	position: absolute;
+	position: fixed;
 	right: 0%;
 	float: right;
 	clear: both;

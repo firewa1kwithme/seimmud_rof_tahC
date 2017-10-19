@@ -5,27 +5,25 @@
 	<script type="text/javascript">
 		window.onload = function() {
 			var btnConnect = document.getElementById('btn_connect');
-			var btnOk = document.getElementById('btn_ok');
+			var btnSend = document.getElementById('btn_ok');
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
-			var username = document.getElementById("user_info");
-			var spanOnline = document.querySelector("span.italic_text");
-			
+
 			function testWebSocket(){
 
 				var inptIP = document.getElementById('input_IP');
 				var inptUsername = document.getElementById('input_username');
+				var usernameH1 = document.querySelector("#user_info h1");
 
 				var socket = new WebSocket(inptIP.value);
 
 				socket.onopen = function(){
-					username.innerText = inptUsername.value;
-					spanOnline.innerHTML = '<span style="color: #33ff33;">(online)';
-					// username.innerText = "(online)";
+					// usernameH1.innerText = inptUsername.value;
+					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
 				};
 
 				socket.onclose = function(){
-					spanOnline.innerHTML = '<span style="color: red;">(offline)';
+					usernameH1.innerHTML = inptUsername.value + '<span style="color: red;" class="italic_text">(offline)';
 				};
 
 				socket.onmessage = function(event){
@@ -37,7 +35,7 @@
 				inptMes.addEventListener("keyup", function(event) {
     				event.preventDefault();
     				if (event.keyCode == 13) {
-        				btnOk.click();
+						btnSend.click();
     				}
 				});
 			};
@@ -62,7 +60,7 @@
 					addMessage(inptMes.value, false);
 					socket.send(inptMes.value);
 					inptMes.value = '';
-					// socket.send(inptMes.value);
+					socket.send(inptMes.value);
 				}
 				else{
 					inptMes.value = '';
@@ -70,9 +68,9 @@
 			};
 
 			btnConnect.addEventListener('click', testWebSocket);
-			pressEnter();
-			btnOk.addEventListener('click', test);
-			testWebSocket();
+			// pressEnter();
+			btnSend.addEventListener('click', test);
+			// testWebSocket();
 
 		}
 
