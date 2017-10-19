@@ -6,7 +6,6 @@
 	width: 100%;
 	border-bottom: thin solid #606060;
 	background: #404040;
-	/*z-index: 2;*/
 }
 
 #input_connection{
@@ -45,14 +44,13 @@
 	right: 0%;
 	width: 25%;
 	height: 100%;
-	/*border-left: thin solid #606060;*/
 }
 
 #page_header h1{
 	text-align: center;
 	margin: 8px 0% 0% 0px;
 	color: #f0f0f0;
-	font: bold 110% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+	font: bold italic 110% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
 }
 
 span.italic_text {
@@ -66,14 +64,12 @@ span.italic_text {
 	bottom: 0px;
 	left: 0px;
 	right: 0px;
-	/*height: 100%;*/
 	width: 100%;
 }
 
 #messages_field {
 	position: fixed;
 	top: 40px;
-	/*left: 0%;*/
 	bottom: 55px;
 	width: 75%;
 	border-top: thin solid #606060;
@@ -109,8 +105,7 @@ span.italic_text {
 	right: 2%;
 }
 
-div.added_message{
-	position: fixed;
+div.outcoming_message{
 	right: 0%;
 	float: right;
 	clear: both;
@@ -169,7 +164,6 @@ button.buttons{
 }
 
 input.start_input_fields{
-	position: absolute;
 	height: 25px;
 	width: 10%;
 	top: 7px;

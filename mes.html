@@ -8,69 +8,60 @@
 			var btnSend = document.getElementById('btn_ok');
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
-
-			function testWebSocket(){
-
-				var inptIP = document.getElementById('input_IP');
-				var inptUsername = document.getElementById('input_username');
-				var usernameH1 = document.querySelector("#user_info h1");
-
-				var socket = new WebSocket(inptIP.value);
-
-				socket.onopen = function(){
-					// usernameH1.innerText = inptUsername.value;
-					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
-				};
-
-				socket.onclose = function(){
-					usernameH1.innerHTML = inptUsername.value + '<span style="color: red;" class="italic_text">(offline)';
-				};
-
-				socket.onmessage = function(event){
-					addMessage(event.data, true);
-				};
-			};
-
-			function pressEnter(){
-				inptMes.addEventListener("keyup", function(event) {
-    				event.preventDefault();
-    				if (event.keyCode == 13) {
-						btnSend.click();
-    				}
-				});
-			};
+			var socket;
 
 			function addMessage(message, isIncoming) {
 				var div = document.createElement('div');
 				if (isIncoming) {
 					div.className = "incoming_message";
 				} else {
-					div.className = "added_message";
+					div.className = "outcoming_message";
 				}
 				div.innerText = message;
 				messagesField.appendChild(div);
 			};
 
-			function isNumericText(n){
+			function isNotEmpty(n) {
 				return !(n[0] == " ") && n.length > 1;
 			};
 
-			function test(){
-				if (isNumericText(inptMes.value)){
+			btnConnect.addEventListener('click', function() {
+
+				var inptIP = document.getElementById('input_IP');
+				var inptUsername = document.getElementById('input_username');
+				var usernameH1 = document.querySelector("#user_info h1");
+				socket = new WebSocket(inptIP.value);
+
+				socket.onopen = function() {
+					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
+				};
+
+				socket.onclose = function() {
+					usernameH1.innerHTML = inptUsername.value + '<span style="color: red;" class="italic_text"> (offline)';
+				};
+
+				socket.onmessage = function(event) {
+					addMessage(event.data, true);
+				};
+			});
+
+			btnSend.addEventListener('click', function() {
+				if (isNotEmpty(inptMes.value)) {
 					addMessage(inptMes.value, false);
 					socket.send(inptMes.value);
 					inptMes.value = '';
 					socket.send(inptMes.value);
-				}
-				else{
+				} else {
 					inptMes.value = '';
 				}
-			};
+			});
 
-			btnConnect.addEventListener('click', testWebSocket);
-			// pressEnter();
-			btnSend.addEventListener('click', test);
-			// testWebSocket();
+			inptMes.addEventListener("keyup", function(event) {
+				event.preventDefault();
+				if (event.keyCode == 13) {
+					btnSend.click();
+				}
+			});
 
 		}
 
@@ -84,7 +75,7 @@
 			<button id="btn_connect" class="buttons">Connect </button>
 		</div>
 		<div id="user_info">
-			<h1>Anonymous <span class="italic_text">(You)</span></h1>
+			<h1>Connection...</h1>
 		</div>
 	</div>
 	<div id="page_body">
