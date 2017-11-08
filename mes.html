@@ -30,10 +30,9 @@
 				var inptIP = document.getElementById('input_IP');
 				var inptUsername = document.getElementById('input_username');
 				var usernameH1 = document.querySelector("#user_info h1");
-				socket = new WebSocket(input_IP.value); //ws://192.168.0.101:4004
+				socket = new WebSocket(input_IP.value); //ws://192.168.0.103:4004
 
 				socket.onopen = function() {
-					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
 					var msg = {type: "registration", data: {user_name: inptUsername.value}};
 					var strMsg = JSON.stringify(msg);
 					socket.send(strMsg);
@@ -48,23 +47,31 @@
 					var incMsg = JSON.parse(incStrMsg); //TODO: tут в зависимости от типа сообщения
 					if (incMsg.type == 'registration') {
 						if (incMsg.data.status == 'registered') {
-							addMessage('connected', true);//TODO: добавлять имя перед каждым сообщением и ассоциировать это имя с сообщениями от меня на сервере (на других клиентах его отображать)
+							usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
+							addMessage('connected', true);
 						};
 						if (incMsg.data.status == 'user_name_busy') {
-							addMessage('user_name is already existed, please try another user_name', true);
+							addMessage('user_name is already existed, please try another user_name', true);//TODO: нельзя переписываться, можно только юзернейм менять
 						};
 					};
 
-					addMessage(incMsg.data, true);
+					if (incMsg.type == 'new_message') {
+						if (incMsg.data.sender == inptUsername.value){
+							addMessage(incMsg.data.message, false);
+						} else {
+							addMessage(incMsg.data.message, true); //TODO: добавить имя отпавителя
+						};
+					};
 				};
 			});
 
 			btnSend.addEventListener('click', function() {
 				if (isNotEmpty(inptMes.value)) {
-					addMessage(inptMes.value, false);
-					socket.send(inptMes.value);
+					var mes = {type: "new_message", data: {message: inptMes.value}};
+					var strMes = JSON.stringify(mes);
+					socket.send(strMes);
 					inptMes.value = '';
-					socket.send(inptMes.value);
+					// socket.send(inptMes.value);
 				} else {
 					inptMes.value = '';
 				}
@@ -89,7 +96,7 @@
 			<button id="btn_connect" class="buttons">Connect </button>
 		</div>
 		<div id="user_info">
-			<h1>Connection...</h1>
+			<h1> </h1>
 		</div>
 	</div>
 	<div id="page_body">
