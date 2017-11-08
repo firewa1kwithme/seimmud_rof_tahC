@@ -34,6 +34,9 @@
 
 				socket.onopen = function() {
 					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
+					var msg = {type: "registration", data: {user_name: inptUsername.value}};
+					var strMsg = JSON.stringify(msg);
+					socket.send(strMsg);
 				};
 
 				socket.onclose = function() {
@@ -41,7 +44,9 @@
 				};
 
 				socket.onmessage = function(event) {
-					addMessage(event.data, true);
+					var incStrMsg = event.data;
+					var incMsg = JSON.parse(incStrMsg); //тут в зависимости от типа сообщения
+					addMessage(incMsg.data, true);
 				};
 			});
 
