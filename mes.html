@@ -30,7 +30,7 @@
 				var inptIP = document.getElementById('input_IP');
 				var inptUsername = document.getElementById('input_username');
 				var usernameH1 = document.querySelector("#user_info h1");
-				socket = new WebSocket(inptIP.value);
+				socket = new WebSocket(input_IP.value); //ws://192.168.0.101:4004
 
 				socket.onopen = function() {
 					usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
@@ -45,7 +45,16 @@
 
 				socket.onmessage = function(event) {
 					var incStrMsg = event.data;
-					var incMsg = JSON.parse(incStrMsg); //тут в зависимости от типа сообщения
+					var incMsg = JSON.parse(incStrMsg); //TODO: tут в зависимости от типа сообщения
+					if (incMsg.type == 'registration') {
+						if (incMsg.data.status == 'registered') {
+							addMessage('connected', true);//TODO: добавлять имя перед каждым сообщением и ассоциировать это имя с сообщениями от меня на сервере (на других клиентах его отображать)
+						};
+						if (incMsg.data.status == 'user_name_busy') {
+							addMessage('user_name is already existed, please try another user_name', true);
+						};
+					};
+
 					addMessage(incMsg.data, true);
 				};
 			});
