@@ -45,10 +45,16 @@
 				socket.onmessage = function(event) {
 					var incStrMsg = event.data;
 					var incMsg = JSON.parse(incStrMsg); //TODO: tут в зависимости от типа сообщения
+					console.log(incMsg);
+					// type: error
+					// type: get_user_list
 					if (incMsg.type == 'registration') {
 						if (incMsg.data.status == 'registered') {
 							usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
 							addMessage('connected', true);
+							var msgGetUserList = {type: "get_user_list"};
+							var strMsgGetUserList = JSON.stringify(msgGetUserList);
+							socket.send(strMsgGetUserList);
 						};
 						if (incMsg.data.status == 'user_name_busy') {
 							addMessage('user_name is already existed, please try another user_name', true);//TODO: нельзя переписываться, можно только юзернейм менять
@@ -60,6 +66,17 @@
 							addMessage(incMsg.data.message, false);
 						} else {
 							addMessage(incMsg.data.message, true); //TODO: добавить имя отпавителя
+						};
+					};
+					if (incMsg.type == 'get_user_list') {
+						for (var i = 0; i < incMsg.data.user_list.length; i++) {
+							var div = document.createElement('div');
+							var h1 = document.createElement('h1');
+							var contactMenu = document.getElementById('contact_menu');
+							div.className = "contact_block_style";
+							h1.innerText = incMsg.data.user_list[i].username;
+							contactMenu.appendChild(div);
+							div.appendChild(h1);
 						};
 					};
 				};
@@ -106,57 +123,6 @@
 			<button id="btn_ok" class="buttons">Send</button>
 		</div>
 		<div id="contact_menu">
-			<div class="contact_block_style">
-				<h1>Mama Prosti</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Шарамок</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Good Boy</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Шива</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Телка из Томска</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>BBNG</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Putin</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Navalny</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Cooper</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Дени</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Rick</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>02</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>41</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Дядя Деда</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Дюймовочка</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Лучший друг</h1>
-			</div>
-			<div class="contact_block_style">
-				<h1>Огурчик</h1>
-			</div>
 		</div>
 	</div>
 </body>

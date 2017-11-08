@@ -136,6 +136,8 @@ div.incoming_message{
 	right: 0px;
 	width: 25%;
 	border-top: thin solid #606060;
+	background: #404040;
+	border-left: thin solid #606060;
 }
 div.contact_block_style{
 	float: right;
