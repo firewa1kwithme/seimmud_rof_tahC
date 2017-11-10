@@ -49,15 +49,20 @@
 					// type: error
 					// type: get_user_list
 					if (incMsg.type == 'registration') {
+						var div = document.createElement('div');
 						if (incMsg.data.status == 'registered') {
 							usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
-							addMessage('connected', true);
+							div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
+							div.innerText = 'Connected';
+							messagesField.appendChild(div);
 							var msgGetUserList = {type: "get_user_list"};
 							var strMsgGetUserList = JSON.stringify(msgGetUserList);
 							socket.send(strMsgGetUserList);
 						};
 						if (incMsg.data.status == 'user_name_busy') {
-							addMessage('user_name is already existed, please try another user_name', true);//TODO: нельзя переписываться, можно только юзернейм менять
+							div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
+							div.innerText = 'User_name is already existed, please try another user_name';
+							messagesField.appendChild(div);
 						};
 					};
 
