@@ -55,7 +55,7 @@
 							div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
 							div.innerText = 'Connected';
 							messagesField.appendChild(div);
-							var msgGetUserList = {type: "get_user_list"};
+							var msgGetUserList = {type: "update_user_list"};
 							var strMsgGetUserList = JSON.stringify(msgGetUserList);
 							socket.send(strMsgGetUserList);
 						};
@@ -67,17 +67,20 @@
 					};
 
 					if (incMsg.type == 'new_message') {
+						var msgWithSender = incMsg.data.sender + '\n' +incMsg.data.message;
 						if (incMsg.data.sender == inptUsername.value){
-							addMessage(incMsg.data.message, false);
+							addMessage(msgWithSender, false);
 						} else {
-							addMessage(incMsg.data.message, true); //TODO: добавить имя отпавителя
+							addMessage(msgWithSender, true); //TODO: добавить имя отпавителя
 						};
 					};
-					if (incMsg.type == 'get_user_list') {
+					if (incMsg.type == 'update_user_list') {
+						var contactMenu = document.getElementById('contact_menu');
+						contact_menu.innerHTML = '';
 						for (var i = 0; i < incMsg.data.user_list.length; i++) {
 							var div = document.createElement('div');
 							var h1 = document.createElement('h1');
-							var contactMenu = document.getElementById('contact_menu');
+							
 							div.className = "contact_block_style";
 							h1.innerText = incMsg.data.user_list[i].username;
 							contactMenu.appendChild(div);
