@@ -32,6 +32,13 @@
 	left: 24%;
 }
 
+#btn_disconnect{
+	position: absolute;
+	width: 10%;
+	top: 7px;
+	left: 35%;
+}
+
 #contact_info{
 	position: absolute;
 	width: 75%;
@@ -56,6 +63,10 @@
 span.italic_text {
 	color: #909090;
 	font: italic 80% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+span.usernameInMessage {
+	font: bold 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
 }
 
 #page_body{
@@ -105,8 +116,8 @@ span.italic_text {
 	right: 2%;
 }
 
-div.outcoming_message{
-	right: 0%;
+div.outcoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
+	right: 2%;
 	float: right;
 	clear: both;
 	margin: 5px 5px 5px 5px;
@@ -117,8 +128,8 @@ div.outcoming_message{
 	max-width: 50%;
 }
 
-div.incoming_message{
-	left: 0%;
+div.incoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
+	left: 2%;
 	float: left;
 	clear: both;
 	margin: 5px 5px 5px 5px;
@@ -134,7 +145,6 @@ div.service_message{
 	margin-top: 5px;
 	float: center;
 	clear: both;
-	/*left: 2%;*/
     color: #FA8072;
     font: italic 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
 }

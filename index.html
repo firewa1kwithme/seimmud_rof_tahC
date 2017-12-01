@@ -1,23 +1,28 @@
 <html>
 <head>
+<title>seimmud rof tahC</title>
 <link rel="stylesheet" type="text/css" href="style.css" />
 <meta charset="utf-8">
 	<script type="text/javascript">
 		window.onload = function() {
 			var btnConnect = document.getElementById('btn_connect');
+			var btnDisconnect = document.getElementById('btn_disconnect');
 			var btnSend = document.getElementById('btn_ok');
 			var inptMes = document.getElementById('inpt_mes');
 			var messagesField = document.getElementById('messages_field');
 			var socket;
+			var inptIP = document.getElementById('input_IP');
+			inptIP.value = 'chat.oxeltech.com';
 
-			function addMessage(message, isIncoming) {
+			function addMessage(name, message, isIncoming) {
 				var div = document.createElement('div');
 				if (isIncoming) {
 					div.className = "incoming_message";
 				} else {
 					div.className = "outcoming_message";
 				}
-				div.innerText = message;
+				div.innerHTML = '<span class="usernameInMessage">' + name +'</span><br/>' + message;
+				// div.innerHTML = '<h1>' + name +'</h1>' + message;
 				messagesField.appendChild(div);
 			};
 
@@ -27,67 +32,86 @@
 
 			btnConnect.addEventListener('click', function() {
 
-				var inptIP = document.getElementById('input_IP');
 				var inptUsername = document.getElementById('input_username');
 				var usernameH1 = document.querySelector("#user_info h1");
-				socket = new WebSocket(input_IP.value); //ws://192.168.0.103:4004
 
-				socket.onopen = function() {
-					var msg = {type: "registration", data: {user_name: inptUsername.value}};
-					var strMsg = JSON.stringify(msg);
-					socket.send(strMsg);
-				};
+				if (!isNotEmpty(inptIP.value)) {
+					var div = document.createElement('div');
+					div.className = "service_message";
+					div.innerText = 'Please, write IP address';//TODO: артикль?
+					messagesField.appendChild(div);
+				} else if (!isNotEmpty(inptUsername.value)){
+					var div = document.createElement('div');
+					div.className = "service_message";
+					div.innerText = 'Please, write username';//TODO: артикль?
+					messagesField.appendChild(div);
+				} else {
+					socket = new WebSocket('ws://' + inptIP.value + ':6248');
 
-				socket.onclose = function() {
-					usernameH1.innerHTML = inptUsername.value + '<span style="color: red;" class="italic_text"> (offline)';
-				};
-
-				socket.onmessage = function(event) {
-					var incStrMsg = event.data;
-					var incMsg = JSON.parse(incStrMsg); //TODO: tут в зависимости от типа сообщения
-					console.log(incMsg);
-					// type: error
-					// type: get_user_list
-					if (incMsg.type == 'registration') {
-						var div = document.createElement('div');
-						if (incMsg.data.status == 'registered') {
-							usernameH1.innerHTML = inptUsername.value + '<span style="color: #33ff33;" class="italic_text"> (online)';
-							div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
-							div.innerText = 'Connected';
-							messagesField.appendChild(div);
-							var msgGetUserList = {type: "update_user_list"};
-							var strMsgGetUserList = JSON.stringify(msgGetUserList);
-							socket.send(strMsgGetUserList);
-						};
-						if (incMsg.data.status == 'user_name_busy') {
-							div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
-							div.innerText = 'User_name is already existed, please try another user_name';
-							messagesField.appendChild(div);
-						};
+					socket.onopen = function() {
+						var msg = {type: "registration", data: {user_name: inptUsername.value}};
+						var strMsg = JSON.stringify(msg);
+						socket.send(strMsg);
 					};
 
-					if (incMsg.type == 'new_message') {
-						var msgWithSender = incMsg.data.sender + '\n' +incMsg.data.message;
-						if (incMsg.data.sender == inptUsername.value){
-							addMessage(msgWithSender, false);
-						} else {
-							addMessage(msgWithSender, true); //TODO: добавить имя отпавителя
-						};
+					socket.onclose = function() {
+						// var div = document.createElement('div');
+						usernameH1.innerHTML = inptUsername.value + '<span style="color: #FA8072;" class="italic_text"> (offline)';
+						div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
+						div.innerText = 'Disconnected';
+						messagesField.appendChild(div);
 					};
-					if (incMsg.type == 'update_user_list') {
-						var contactMenu = document.getElementById('contact_menu');
-						contact_menu.innerHTML = '';
-						for (var i = 0; i < incMsg.data.user_list.length; i++) {
+
+					socket.onmessage = function(event) {
+						var incStrMsg = event.data;
+						var incMsg = JSON.parse(incStrMsg);
+						console.log(incMsg);
+						// type: error
+						// type: get_user_list
+						if (incMsg.type == 'registration') {
 							var div = document.createElement('div');
-							var h1 = document.createElement('h1');
-							
-							div.className = "contact_block_style";
-							h1.innerText = incMsg.data.user_list[i].username;
-							contactMenu.appendChild(div);
-							div.appendChild(h1);
+
+							if (incMsg.data.status == 'registered') {
+								usernameH1.innerHTML = inptUsername.value + '<span style="color: #009900;" class="italic_text"> (online)';
+								div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
+								div.innerText = 'Connected';
+								messagesField.appendChild(div);
+								var msgGetUserList = {type: "update_user_list"};
+								var strMsgGetUserList = JSON.stringify(msgGetUserList);
+								socket.send(strMsgGetUserList);
+							};
+
+							if (incMsg.data.status == 'user_name_busy') {
+								div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
+								div.innerText = 'User_name is already existed, please try another user_name';
+								messagesField.appendChild(div);
+							};
 						};
-					};
-				};
+
+						if (incMsg.type == 'new_message') {
+
+							if (incMsg.data.sender == inptUsername.value){
+								addMessage(incMsg.data.sender, incMsg.data.message, false);
+							} else {
+								addMessage(incMsg.data.sender, incMsg.data.message, true); //TODO: добавить имя отпавителя
+							};
+						};
+
+						if (incMsg.type == 'update_user_list') {
+							var contactMenu = document.getElementById('contact_menu');
+							contact_menu.innerHTML = '';
+
+							for (var i = 0; i < incMsg.data.user_list.length; i++) {
+								var div = document.createElement('div');
+								var h1 = document.createElement('h1');
+								div.className = "contact_block_style";
+								h1.innerText = incMsg.data.user_list[i].username;
+								contactMenu.appendChild(div);
+								div.appendChild(h1);
+							};
+						};
+					};//fin socket.onmessage
+				}
 			});
 
 			btnSend.addEventListener('click', function() {
@@ -109,6 +133,10 @@
 				}
 			});
 
+			btnDisconnect.addEventListener('click', function() {
+				socket.close();
+			});
+
 		}
 
 	</script>
@@ -119,6 +147,7 @@
 			<input type="text" id="input_IP" class="start_input_fields" placeholder="IP..."></input>
 			<input id="input_username" class="start_input_fields" type="text" placeholder="Username..."></input>
 			<button id="btn_connect" class="buttons">Connect </button>
+			<button id="btn_disconnect" class="buttons">Disconnect </button>
 		</div>
 		<div id="user_info">
 			<h1> </h1>
