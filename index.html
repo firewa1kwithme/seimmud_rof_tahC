@@ -22,9 +22,15 @@
 					div.className = "outcoming_message";
 				}
 				div.innerHTML = '<span class="usernameInMessage">' + name +'</span><br/>' + message;
-				// div.innerHTML = '<h1>' + name +'</h1>' + message;
 				messagesField.appendChild(div);
 			};
+
+			function serviceMessage(message){
+				var div = document.createElement('div');
+				div.className = "service_message";
+				div.innerText = message;
+				messagesField.appendChild(div);
+			}
 
 			function isNotEmpty(n) {
 				return !(n[0] == " ") && n.length > 1;
@@ -36,15 +42,9 @@
 				var usernameH1 = document.querySelector("#user_info h1");
 
 				if (!isNotEmpty(inptIP.value)) {
-					var div = document.createElement('div');
-					div.className = "service_message";
-					div.innerText = 'Please, write IP address';//TODO: артикль?
-					messagesField.appendChild(div);
+					serviceMessage('Please, write IP address');
 				} else if (!isNotEmpty(inptUsername.value)){
-					var div = document.createElement('div');
-					div.className = "service_message";
-					div.innerText = 'Please, write username';//TODO: артикль?
-					messagesField.appendChild(div);
+					serviceMessage('Please, write username');
 				} else {
 					socket = new WebSocket('ws://' + inptIP.value + ':6248');
 
@@ -55,11 +55,8 @@
 					};
 
 					socket.onclose = function() {
-						// var div = document.createElement('div');
 						usernameH1.innerHTML = inptUsername.value + '<span style="color: #FA8072;" class="italic_text"> (offline)';
-						div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
-						div.innerText = 'Disconnected';
-						messagesField.appendChild(div);
+						serviceMessage('Disconnected');
 					};
 
 					socket.onmessage = function(event) {
@@ -73,18 +70,14 @@
 
 							if (incMsg.data.status == 'registered') {
 								usernameH1.innerHTML = inptUsername.value + '<span style="color: #009900;" class="italic_text"> (online)';
-								div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
-								div.innerText = 'Connected';
-								messagesField.appendChild(div);
+								serviceMessage('Connected');
 								var msgGetUserList = {type: "update_user_list"};
 								var strMsgGetUserList = JSON.stringify(msgGetUserList);
 								socket.send(strMsgGetUserList);
 							};
 
 							if (incMsg.data.status == 'user_name_busy') {
-								div.className = "service_message";//Q: вынести в отдельную функцию сервисные сообщения?
-								div.innerText = 'User_name is already existed, please try another user_name';
-								messagesField.appendChild(div);
+								serviceMessage('Username is already existed, please try another user_name');
 							};
 						};
 
@@ -93,7 +86,7 @@
 							if (incMsg.data.sender == inptUsername.value){
 								addMessage(incMsg.data.sender, incMsg.data.message, false);
 							} else {
-								addMessage(incMsg.data.sender, incMsg.data.message, true); //TODO: добавить имя отпавителя
+								addMessage(incMsg.data.sender, incMsg.data.message, true);
 							};
 						};
 
@@ -120,7 +113,6 @@
 					var strMes = JSON.stringify(mes);
 					socket.send(strMes);
 					inptMes.value = '';
-					// socket.send(inptMes.value);
 				} else {
 					inptMes.value = '';
 				}

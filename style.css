@@ -15,28 +15,32 @@
 	border-right: thin solid #606060;	
 }
 
+input.start_input_fields{
+	height: 25px;
+	width: 10%;
+	margin: 7px 3px 0 3px;
+	border: thin solid #606060;
+	background: #606060;
+	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
 #input_IP{
-	position: absolute;
-	left: 2%;	
+	margin-left: 20px;
 }
 
 #input_username{
-	position: absolute;
-	left: 13%;	
 }
 
 #btn_connect{
-	position: absolute;
 	width: 10%;
-	top: 7px;
-	left: 24%;
+	padding-bottom: 1px;
+	margin-left: 3px;
 }
 
 #btn_disconnect{
-	position: absolute;
 	width: 10%;
-	top: 7px;
-	left: 35%;
+	padding-bottom: 1px;
+	margin-left: 6px;
 }
 
 #contact_info{
@@ -120,8 +124,8 @@ div.outcoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
 	right: 2%;
 	float: right;
 	clear: both;
-	margin: 5px 5px 5px 5px;
-	padding: 5px 8px 5px 8px;
+	margin: 5px 20px 5px 5px;
+	padding: 1px 8px 5px 8px;
 	background-color: #606060;
 	color: #F0F0F0;
 	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
@@ -132,8 +136,8 @@ div.incoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
 	left: 2%;
 	float: left;
 	clear: both;
-	margin: 5px 5px 5px 5px;
-	padding: 5px 8px 5px 8px;
+	margin: 5px 5px 5px 20px;
+	padding: 1px 8px 5px 8px;
 	background-color: #606060;
 	color: #F0F0F0;
 	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
@@ -183,13 +187,4 @@ button.buttons{
 	background: #606060;
 	color: #202020;
 	font: 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
-}
-
-input.start_input_fields{
-	height: 25px;
-	width: 10%;
-	top: 7px;
-	border: thin solid #606060;
-	background: #606060;
-	font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif; 
 }
