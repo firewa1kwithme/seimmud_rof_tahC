@@ -92,6 +92,7 @@ span.usernameInMessage {
 	border-right: thin solid #606060;
 	background: #202020;
 	overflow-y: scroll;
+	overflow-wrap: break-word;
 }
 
 #chat_input_block {
@@ -120,7 +121,7 @@ span.usernameInMessage {
 	right: 2%;
 }
 
-div.outcoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
+div.outcoming_message{
 	right: 2%;
 	float: right;
 	clear: both;
@@ -147,7 +148,6 @@ div.incoming_message{/*TODO: СМЕСТИТЬ НА 2%*/
 div.service_message{
 	margin-left: 2%;
 	margin-top: 5px;
-	float: center;
 	clear: both;
     color: #FA8072;
     font: italic 100% Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
